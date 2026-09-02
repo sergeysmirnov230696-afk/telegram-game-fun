@@ -14,7 +14,150 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      player_dragons: {
+        Row: {
+          bought_at: string
+          dragon_id: number
+          id: string
+          player_id: string
+        }
+        Insert: {
+          bought_at?: string
+          dragon_id: number
+          id?: string
+          player_id: string
+        }
+        Update: {
+          bought_at?: string
+          dragon_id?: number
+          id?: string
+          player_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "player_dragons_player_id_fkey"
+            columns: ["player_id"]
+            isOneToOne: false
+            referencedRelation: "players"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      players: {
+        Row: {
+          addresses: Json
+          balance: number
+          collected: number
+          created_at: string
+          id: string
+          language: string
+          last_accrual: string
+          name: string
+          player_key: string
+          referral_balance: number
+          referred_by: string | null
+        }
+        Insert: {
+          addresses?: Json
+          balance?: number
+          collected?: number
+          created_at?: string
+          id?: string
+          language?: string
+          last_accrual?: string
+          name?: string
+          player_key: string
+          referral_balance?: number
+          referred_by?: string | null
+        }
+        Update: {
+          addresses?: Json
+          balance?: number
+          collected?: number
+          created_at?: string
+          id?: string
+          language?: string
+          last_accrual?: string
+          name?: string
+          player_key?: string
+          referral_balance?: number
+          referred_by?: string | null
+        }
+        Relationships: []
+      }
+      referrals: {
+        Row: {
+          created_at: string
+          deposit: number
+          id: string
+          income: number
+          invited_name: string
+          inviter_id: string
+        }
+        Insert: {
+          created_at?: string
+          deposit?: number
+          id?: string
+          income?: number
+          invited_name: string
+          inviter_id: string
+        }
+        Update: {
+          created_at?: string
+          deposit?: number
+          id?: string
+          income?: number
+          invited_name?: string
+          inviter_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "referrals_inviter_id_fkey"
+            columns: ["inviter_id"]
+            isOneToOne: false
+            referencedRelation: "players"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      transactions: {
+        Row: {
+          amount: number
+          created_at: string
+          id: string
+          kind: string
+          method: string
+          player_id: string
+          status: string
+        }
+        Insert: {
+          amount: number
+          created_at?: string
+          id?: string
+          kind: string
+          method: string
+          player_id: string
+          status?: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          id?: string
+          kind?: string
+          method?: string
+          player_id?: string
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "transactions_player_id_fkey"
+            columns: ["player_id"]
+            isOneToOne: false
+            referencedRelation: "players"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
