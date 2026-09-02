@@ -264,7 +264,7 @@ export function saveAddress(currency: CurrencyCode, address: string) {
 }
 
 export function referralLink(s: GameState) {
-  return `https://t.me/dragonvault_bot?start=${s.refCode}`;
+  return `https://t.me/DragonHash_bot?startapp=${s.refCode}`;
 }
 
 export function fmt(n: number, digits = 2) {
