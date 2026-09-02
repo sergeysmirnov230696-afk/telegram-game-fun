@@ -5,6 +5,10 @@ import dragon3 from "@/assets/dragon-3.png";
 import dragon4 from "@/assets/dragon-4.png";
 import dragon5 from "@/assets/dragon-5.png";
 import dragon6 from "@/assets/dragon-6.png";
+import dragon7 from "@/assets/dragon-7.png";
+import dragon8 from "@/assets/dragon-8.png";
+import dragon9 from "@/assets/dragon-9.png";
+import dragon10 from "@/assets/dragon-10.png";
 import { getTelegramUser, getStartParam } from "./telegram";
 
 export type Dragon = {
@@ -25,6 +29,11 @@ export const DRAGONS: Dragon[] = [
   { id: 4, name: "Золотой хранитель", image: dragon4, price: 10, ratePerDay: 16, lifespanDays: 30 },
   { id: 5, name: "Изумрудный ловчий", image: dragon5, price: 25, ratePerDay: 18, lifespanDays: 30 },
   { id: 6, name: "Владыка Бездны", image: dragon6, price: 50, ratePerDay: 20, lifespanDays: 30 },
+  30 },
+  { id: 7, name: "Багровый штормовик", image: dragon7, price: 100, ratePerDay: 22, lifespanDays: 30 },
+  { id: 8, name: "Золотой хранитель", image: dragon8, price: 200, ratePerDay: 25, lifespanDays: 30 },
+  { id: 9, name: "Изумрудный ловчий", image: dragon9, price: 500, ratePerDay: 28, lifespanDays: 30 },
+  { id: 10, name: "Владыка Бездны", image: dragon10, price: 1000, ratePerDay: 30, lifespanDays: 30 },
 ];
 
 export const CURRENCIES = [
