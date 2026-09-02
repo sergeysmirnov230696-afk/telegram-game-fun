@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 
 type CurrencyIconProps = {
   label: string;
@@ -6,33 +6,59 @@ type CurrencyIconProps = {
   size?: number;
 };
 
-const currencyCoinIds: Record<string, string> = {
-  TRX: "tron",
-  GRAM: "gram",
-  BNB: "binancecoin",
-  "BNB (BEP20)": "binancecoin",
-  DOG: "dogecoin",
-  DOGE: "dogecoin",
-  LTC: "litecoin",
-  SOL: "solana",
-  POL: "polygon-ecosystem-token",
-  TON: "the-open-network",
+/**
+ * Flaticon / bouzix / Color Fill
+ *
+ * Файлы:
+ * public/icons/crypto/
+ *
+ * Основные:
+ * trx.png
+ * gram.png
+ * bnb.png
+ * doge.png
+ * ltc.png
+ * sol.png
+ * pol.png
+ * ton.png
+ * usdt.png
+ *
+ * Сети:
+ * network/bep20.png
+ * network/trc20.png
+ * network/polygon.png
+ * network/solana.png
+ * network/ton.png
+ */
 
-  USDT: "tether",
-  "USDT (BEP20)": "tether",
-  "USDT (TRC20)": "tether",
-  "USDT (POLYGON)": "tether",
-  "USDT (SOLANA)": "tether",
-  "USDT (TON)": "tether",
+const currencyIcons: Record<string, string> = {
+  TRX: "/icons/crypto/trx.png",
+  GRAM: "/icons/crypto/gram.png",
+  BNB: "/icons/crypto/bnb.png",
+  "BNB (BEP20)": "/icons/crypto/bnb.png",
+
+  DOG: "/icons/crypto/doge.png",
+  DOGE: "/icons/crypto/doge.png",
+
+  LTC: "/icons/crypto/ltc.png",
+  SOL: "/icons/crypto/sol.png",
+  POL: "/icons/crypto/pol.png",
+  TON: "/icons/crypto/ton.png",
+
+  USDT: "/icons/crypto/usdt.png",
+  "USDT (BEP20)": "/icons/crypto/usdt.png",
+  "USDT (TRC20)": "/icons/crypto/usdt.png",
+  "USDT (POLYGON)": "/icons/crypto/usdt.png",
+  "USDT (SOLANA)": "/icons/crypto/usdt.png",
+  "USDT (TON)": "/icons/crypto/usdt.png",
 };
 
 const networkIcons: Record<string, string> = {
-  BEP20: "https://coin-logos.simplr.sh/images/binancecoin/standard.png",
-  TRC20: "https://coin-logos.simplr.sh/images/tron/standard.png",
-  POLYGON:
-    "https://coin-logos.simplr.sh/images/polygon-ecosystem-token/standard.png",
-  SOLANA: "https://coin-logos.simplr.sh/images/solana/standard.png",
-  TON: "https://coin-logos.simplr.sh/images/the-open-network/standard.png",
+  BEP20: "/icons/crypto/network/bep20.png",
+  TRC20: "/icons/crypto/network/trc20.png",
+  POLYGON: "/icons/crypto/network/polygon.png",
+  SOLANA: "/icons/crypto/network/solana.png",
+  TON: "/icons/crypto/network/ton.png",
 };
 
 export function CurrencyIcon({
@@ -42,77 +68,126 @@ export function CurrencyIcon({
 }: CurrencyIconProps) {
   const normalizedLabel = label.trim().toUpperCase();
 
-  const coinId = currencyCoinIds[normalizedLabel];
+  const iconUrl = currencyIcons[normalizedLabel];
 
-  const iconUrl = coinId
-    ? `https://coin-logos.simplr.sh/images/${coinId}/standard.png`
+  /*
+   * Получаем сеть из:
+   *
+   * USDT (BEP20)
+   * USDT (TRC20)
+   * USDT (POLYGON)
+   * USDT (SOLANA)
+   * USDT (TON)
+   */
+  const networkMatch = normalizedLabel.match(/\(([^)]+)\)/);
+
+  const network = networkMatch
+    ? networkMatch[1]
     : null;
 
-  // Определяем сеть
-  const networkMatch = normalizedLabel.match(/\(([^)]+)\)/);
-  const network = networkMatch?.[1] || null;
+  const networkIcon = network
+    ? networkIcons[network]
+    : null;
 
-  const networkIcon = network ? networkIcons[network] : null;
+  const [iconError, setIconError] = useState(false);
 
-  const [imageError, setImageError] = useState(false);
+  const [networkError, setNetworkError] = useState(false);
 
+  /*
+   * Маленький значок сети.
+   *
+   * На скриншоте он примерно 35–40%
+   * от размера основной иконки.
+   */
+  const networkSize = Math.round(size * 0.38);
+
+  /*
+   * Резервный текст,
+   * если PNG отсутствует.
+   */
   const letters = normalizedLabel
     .replace(/\(.*\)/, "")
     .trim()
     .slice(0, 3);
 
-  const networkSize = Math.max(15, size * 0.38);
-
   return (
     <div
-      className="relative shrink-0"
+      className="relative inline-flex shrink-0"
       style={{
         width: size,
         height: size,
       }}
     >
-      {iconUrl && !imageError ? (
+      {/* ========================================
+          ОСНОВНАЯ ИКОНКА
+      ======================================== */}
+
+      {iconUrl && !iconError ? (
         <img
           src={iconUrl}
           alt={label}
           width={size}
           height={size}
-          className="h-full w-full rounded-full object-contain"
+          draggable={false}
           loading="lazy"
-          onError={() => setImageError(true)}
+          className="block h-full w-full rounded-full object-contain"
+          onError={() => setIconError(true)}
         />
       ) : (
         <span
-          aria-hidden
+          aria-hidden="true"
           className="flex h-full w-full items-center justify-center rounded-full font-bold text-white"
           style={{
             background: color,
-            fontSize: size * 0.3,
-            boxShadow: "0 0 0 1px rgba(255,255,255,.15) inset",
+            fontSize: Math.max(10, size * 0.30),
+            boxShadow:
+              "0 1px 3px rgba(0,0,0,.20), inset 0 0 0 1px rgba(255,255,255,.15)",
           }}
         >
           {letters}
         </span>
       )}
 
-      {/* Значок сети */}
-      {networkIcon && (
+      {/* ========================================
+          ЗНАЧОК СЕТИ
+          Только для USDT (BEP20/TRC20/...)
+      ======================================== */}
+
+      {networkIcon && !networkError && (
         <span
-          className="absolute bottom-[-1px] right-[-1px] flex items-center justify-center overflow-hidden rounded-full bg-white"
+          className="absolute flex items-center justify-center overflow-hidden rounded-full bg-white"
           style={{
             width: networkSize,
             height: networkSize,
+
+            /*
+             * Как на скриншоте:
+             * маленький значок немного выходит
+             * за границу основной иконки.
+             */
+            right: -1,
+            bottom: -1,
+
             padding: 2,
-            boxShadow: "0 1px 4px rgba(0,0,0,.25)",
+
+            boxShadow:
+              "0 1px 3px rgba(0,0,0,.30)",
+
+            zIndex: 2,
           }}
         >
           <img
             src={networkIcon}
-            alt={network}
-            className="h-full w-full rounded-full object-contain"
+            alt={network || ""}
+            draggable={false}
+            loading="lazy"
+            className="block h-full w-full rounded-full object-contain"
+            onError={() => setNetworkError(true)}
           />
         </span>
       )}
     </div>
   );
 }
+
+export default CurrencyIcon;
