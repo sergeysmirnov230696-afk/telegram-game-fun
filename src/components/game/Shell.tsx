@@ -5,7 +5,7 @@ import { fmt, hydrate, useGame } from "@/lib/game";
 import { initTelegram } from "@/lib/telegram";
 
 const TABS = [
-  { to: "/", label: "Логово" },
+  { to: "/", label: "Игра" },
   { to: "/deposit", label: "Пополнить" },
   { to: "/withdraw", label: "Вывод" },
   { to: "/referrals", label: "Друзья" },
