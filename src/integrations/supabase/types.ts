@@ -122,31 +122,52 @@ export type Database = {
       }
       transactions: {
         Row: {
+          address: string | null
           amount: number
           created_at: string
+          currency: string | null
           id: string
+          invoice: string | null
           kind: string
           method: string
+          order_id: string | null
           player_id: string
           status: string
+          system: string | null
+          tag: string | null
+          txn_hash: string | null
         }
         Insert: {
+          address?: string | null
           amount: number
           created_at?: string
+          currency?: string | null
           id?: string
+          invoice?: string | null
           kind: string
           method: string
+          order_id?: string | null
           player_id: string
           status?: string
+          system?: string | null
+          tag?: string | null
+          txn_hash?: string | null
         }
         Update: {
+          address?: string | null
           amount?: number
           created_at?: string
+          currency?: string | null
           id?: string
+          invoice?: string | null
           kind?: string
           method?: string
+          order_id?: string | null
           player_id?: string
           status?: string
+          system?: string | null
+          tag?: string | null
+          txn_hash?: string | null
         }
         Relationships: [
           {
