@@ -35,7 +35,8 @@ export function usePlayerKey() {
     const name = tg
       ? [tg.first_name, tg.last_name].filter(Boolean).join(" ") || tg.username || "Player"
       : "Guest";
-    setIdentity({ playerKey: key, name, referredBy: getStartParam() ?? undefined });
+    const ref = getStartParam();
+    setIdentity(ref ? { playerKey: key, name, referredBy: ref } : { playerKey: key, name });
   }, []);
 
   return identity;
